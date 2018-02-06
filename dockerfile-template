@@ -1,0 +1,7 @@
+# Go image from which to get timezone files
+FROM golang:{$GO_TAG} as go
+
+# Bare os image
+FROM {$OS_NAME}:{$OS_TAG}
+WORKDIR /usr/local/go/lib/time/
+COPY from=go /usr/local/go/lib/time/zoneinfo.zip .
