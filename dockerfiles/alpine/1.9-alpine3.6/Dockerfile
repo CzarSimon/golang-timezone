@@ -1,5 +1,5 @@
 # Go image from which to get timezone files
-FROM golang:1.8-alpine3.6 as go
+FROM golang:1.9-alpine3.6 as go
 
 # Bare os image
 FROM alpine:3.6

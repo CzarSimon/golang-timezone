@@ -1,7 +1,7 @@
 import os
 
 
-_DOCKERFILE = "dockerfile-template"
+_DOCKERFILE = "resources" + os.sep + "dockerfile-template"
 _BASE_PATH = "dockerfiles"
 _GO_TAG_KEY = "{$GO_TAG}"
 _OS_NAME_KEY = "{$OS_NAME}"
@@ -29,7 +29,7 @@ def _populate_dockerfile(template, conf):
 
 def _write(dockerfile_content, path):
     filename = path + os.sep + "Dockerfile"
-    print "Dockerfile:\n{}\n-------".format(dockerfile_content)
+    print "Dockerfile:\n{}-------\n".format(dockerfile_content)
     _create_file_if_not_exists(filename)
     with open(filename, 'w') as f:
         f.write(dockerfile_content)

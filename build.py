@@ -1,3 +1,5 @@
+import os
+
 import config
 import file_handler
 
@@ -5,9 +7,38 @@ import file_handler
 conf = config.Config()
 
 
-def build():
-    image_name = _format_image_name()
-    print image_name
+exit_success = 0
+
+
+def build_and_push():
+    exit_code = _run_command(_get_build_command())
+    if exit_code != exit_success:
+        print "build failed!"
+        return
+    exit_code = _run_command(_get_push_command())
+    if exit_code != exit_success:
+        print "push failed!"
+        return
+    print "Successfully built and pushed image"
+
+
+def _run_command(cmd):
+    print cmd
+    return os.system(cmd)
+
+
+def _get_build_command():
+    return " ".join([
+        "docker",
+        "build",
+        "-t",
+        _format_image_name(),
+        file_handler.create_path(conf)
+    ])
+
+
+def _get_push_command():
+    return "docker push {}".format(_format_image_name())
 
 
 def _format_image_name():
@@ -16,7 +47,7 @@ def _format_image_name():
 
 def main():
     file_handler.create_dockerfile(conf)
-    build()
+    build_and_push()
 
 
 if __name__ == '__main__':
